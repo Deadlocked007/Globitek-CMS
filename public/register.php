@@ -30,6 +30,48 @@
       //   db_close($db);
       //   exit;
       // }
+	$fName = NULL;
+	$lName = NULL;
+	$email = NULL;
+	$user = NULL;
+	$fNameP = NULL;
+	$lNameP = NULL;
+	$emailP = NULL;
+	$uNameP = NULL;
+	$errors=array();
+	if (isset($_POST['submit'])) {
+		$fName = $_POST['fName'];
+		$lName = $_POST['lName'];
+		$email = $_POST['email'];
+		$uName = $_POST['uName'];
+		
+		$fNameP = 'value="' . $fName . '"';
+		$lNameP = 'value="' . $lName . '"';
+		$emailP = 'value="' . $email . '"';
+		$uNameP = 'value="' . $uName . '"';
+		
+		if ($fName == NULL) {
+		    $errors[] = "First name cannot be blank.";	
+		} else if (has_length($fName, [2, 255]) == false) {
+			$errors[] = "First name must be between 2 and 255 characters";
+		}
+		
+		if ($lName == NULL) {
+		    $errors[] = "Last name cannot be blank.";	
+		} else if (has_length($fName, [2, 255]) == false) {
+			$errors[] = "Last name must be between 2 and 255 characters";
+		}
+		
+		if (has_valid_email_format($email) == false) {
+		    $errors[] = "Email must be a valid format";	
+		} 
+		
+		if ($uName == NULL) {
+		    $errors[] = "Last name cannot be blank.";	
+		} else if (has_length($uName, [8, 255]) == false) {
+			$errors[] = "Username must be between 8 and 255 characters";
+		}
+	}
 
 ?>
 
@@ -43,21 +85,22 @@
   <?php
     // TODO: display any form errors here
     // Hint: private/functions.php can help
+	echo display_errors($errors);
   ?>
 
   <!-- TODO: HTML form goes here -->
-  <form action="calc.php" method="post">
+  <form action="" method="post">
 	First name:<br>
-	<input type="text" name="fName">
+	<input type="text" name="fName" <?php echo $fNameP; ?>>
 	<br>
 	Last name:<br>
-	<input type="text" name="lName">
+	<input type="text" name="lName" <?php echo $lNameP; ?>>
 	<br>
 	Email:<br>
-	<input type="text" name="email">
+	<input type="text" name="email" <?php echo $email; ?>>
 	<br>
 	Username:<br>
-	<input type="text" name="uName">
+	<input type="text" name="uName" <?php echo $uNameP; ?>>
 	<br><br>
 	<input type="submit" name="submit" value="Submit">
   </form>
