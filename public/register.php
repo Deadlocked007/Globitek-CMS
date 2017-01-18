@@ -30,25 +30,17 @@
       //   db_close($db);
       //   exit;
       // }
+	
 	$fName = NULL;
 	$lName = NULL;
 	$email = NULL;
-	$user = NULL;
-	$fNameP = NULL;
-	$lNameP = NULL;
-	$emailP = NULL;
-	$uNameP = NULL;
+	$uName = NULL;
 	$errors=array();
 	if (isset($_POST['submit'])) {
 		$fName = $_POST['fName'];
 		$lName = $_POST['lName'];
 		$email = $_POST['email'];
 		$uName = $_POST['uName'];
-		
-		$fNameP = 'value="' . $fName . '"';
-		$lNameP = 'value="' . $lName . '"';
-		$emailP = 'value="' . $email . '"';
-		$uNameP = 'value="' . $uName . '"';
 		
 		if ($fName == NULL) {
 		    $errors[] = "First name cannot be blank.";	
@@ -72,15 +64,20 @@
 			$errors[] = "Username must be between 8 and 255 characters";
 		}
 		
-		if (!empty($errors)) {
-			return;
+		if (empty($errors)) {
+			$sql = "SELECT * FROM users WHERE username = '".$uName."'";
+			$result = mysqli_query($db, $sql);
+			if(mysqli_num_rows($result)>=1)
+			{
+				$errors[] = "Username already exists.";
+			} else {
+				$sql = "INSERT INTO users (first_name, last_name, email, username) 
+				VALUES ('$fName', '$lName', '$email', '$uName')";
+				$db->query($sql);
+				header("Location: registration_success.php"); /* Redirect browser */
+				exit();
+			}
 		}
-		
-		$sql = "INSERT INTO users (first_name, last_name, email, username) 
-		VALUES ('" . $fName . "', '" . $lName . "', '" . $email . "', '" . $uName . "')";
-		$db->query($sql);
-		header("Location: registration_success.php"); /* Redirect browser */
-		exit();
 	}
 
 ?>
@@ -101,16 +98,16 @@
   <!-- TODO: HTML form goes here -->
   <form action="" method="post">
 	First name:<br>
-	<input type="text" name="fName" <?php echo $fNameP; ?>>
+	<input type="text" name="fName" value="<?php echo h($fName); ?>">
 	<br>
 	Last name:<br>
-	<input type="text" name="lName" <?php echo $lNameP; ?>>
+	<input type="text" name="lName" value="<?php echo h($lName); ?>">
 	<br>
 	Email:<br>
-	<input type="text" name="email" <?php echo $email; ?>>
+	<input type="text" name="email" value="<?php echo h($email); ?>">
 	<br>
 	Username:<br>
-	<input type="text" name="uName" <?php echo $uNameP; ?>>
+	<input type="text" name="uName" value="<?php echo h($uName); ?>">
 	<br><br>
 	<input type="submit" name="submit" value="Submit">
   </form>
