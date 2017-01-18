@@ -71,6 +71,16 @@
 		} else if (has_length($uName, [8, 255]) == false) {
 			$errors[] = "Username must be between 8 and 255 characters";
 		}
+		
+		if (!empty($errors)) {
+			return;
+		}
+		
+		$sql = "INSERT INTO users (first_name, last_name, email, username) 
+		VALUES ('" . $fName . "', '" . $lName . "', '" . $email . "', '" . $uName . "')";
+		$db->query($sql);
+		header("Location: registration_success.php"); /* Redirect browser */
+		exit();
 	}
 
 ?>
