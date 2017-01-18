@@ -36,7 +36,7 @@
 	$email = NULL;
 	$uName = NULL;
 	$errors=array();
-	if (isset($_POST['submit'])) {
+	if (is_post_request()) {
 		$fName = $_POST['fName'];
 		$lName = $_POST['lName'];
 		$email = $_POST['email'];
@@ -48,20 +48,36 @@
 			$errors[] = "First name must be between 2 and 255 characters";
 		}
 		
+		if (preg_match("/[^A-Za-z\s-,.']+/", $fName)) {
+			$errors[] = "First name may only consist of letters, spaces, and symbols: - , . '";
+		}
+		
 		if ($lName == NULL) {
 		    $errors[] = "Last name cannot be blank.";	
-		} else if (has_length($fName, [2, 255]) == false) {
+		} else if (has_length($lName, [2, 255]) == false) {
 			$errors[] = "Last name must be between 2 and 255 characters";
+		}
+		
+		if (preg_match("/[^A-Za-z\s-,.']+/", $lName)) {
+			$errors[] = "Last name may only consist of letters, spaces, and symbols: - , . '";
 		}
 		
 		if (has_valid_email_format($email) == false) {
 		    $errors[] = "Email must be a valid format";	
 		} 
 		
+		if (preg_match("/[^A-Za-z0-9_@.]+/", $email)) {
+			$errors[] = "Email may only consist of letters, numbers, and symbols: _ @ .";
+		}
+		
 		if ($uName == NULL) {
 		    $errors[] = "Last name cannot be blank.";	
 		} else if (has_length($uName, [8, 255]) == false) {
 			$errors[] = "Username must be between 8 and 255 characters";
+		}
+		
+		if (preg_match("/[^A-Za-z0-9_]+/", $uName)) {
+			$errors[] = "Username may only consist of letters, numbers, and symbols: _";
 		}
 		
 		if (empty($errors)) {
@@ -74,8 +90,7 @@
 				$sql = "INSERT INTO users (first_name, last_name, email, username) 
 				VALUES ('$fName', '$lName', '$email', '$uName')";
 				$db->query($sql);
-				header("Location: registration_success.php"); /* Redirect browser */
-				exit();
+				redirect_to('registration_success.php');
 			}
 		}
 	}
