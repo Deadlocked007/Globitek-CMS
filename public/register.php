@@ -113,19 +113,25 @@
   <!-- TODO: HTML form goes here -->
   <form action="" method="post">
 	First name:<br>
-	<input type="text" name="fName" value="<?php echo h($fName); ?>">
+	<input type="text" name="fName" placeholder="John" value="<?php echo h($fName); ?>">
 	<br>
 	Last name:<br>
-	<input type="text" name="lName" value="<?php echo h($lName); ?>">
+	<input type="text" name="lName" placeholder="Doe" value="<?php echo h($lName); ?>">
 	<br>
 	Email:<br>
-	<input type="text" name="email" value="<?php echo h($email); ?>">
+	<input type="text" name="email" placeholder="jdoe@example.com" value="<?php echo h($email); ?>">
 	<br>
 	Username:<br>
-	<input type="text" name="uName" value="<?php echo h($uName); ?>">
+	<input type="text" name="uName" placeholder="jhonnydoe" value="<?php echo h($uName); ?>">
 	<br><br>
-	<input type="submit" name="submit" value="Submit">
+	<input type="submit" class="btn btn-primary" name="submit" value="Submit">
   </form>
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.7/js/tether.min.js" integrity="sha384-XTs3FgkjiBgo8qjEjBk0tGmf3wPrWtA6coPfQDfFEY8AnYJwjalXCiosYRBIBZX8" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js" integrity="sha384-BLiI7JTZm+JWlgKa0M0kGRpJbF2J8q+qreVrKBC47e3K6BW78kGLrCkeRX6I9RoK" crossorigin="anonymous"></script>
 
 <?php include(SHARED_PATH . '/footer.php'); ?>
